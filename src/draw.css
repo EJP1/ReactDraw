@@ -1,0 +1,124 @@
+.tool_bar {
+    background-color: #222;
+    height: 60px;
+    padding: 0px;
+    color: white;
+}
+
+.info_bar {
+    background-color: #f9f9f9;
+    height: 0px;
+    padding: 0px;
+    color: #222;
+}
+
+.surface {
+    color: #222;
+    /* border: 1px solid red; */
+    /* margin-top: calc(60px - 30px ); */
+    height: calc(100vh - 60px - 0px - 2px);
+    /* width: calc(100vw - 2px ); */
+    /* height: 512px; */
+    /* width: 512px; */
+    /* width: */
+}
+
+#the-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+
+/*///////////_BUTTONS_////////////*/
+
+.tool_bar_button_stnd {
+    background-color: #222;
+    height: 60px;
+    width: 60px;
+    font-size: 18px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.tool_bar_button_stnd:hover {
+    background-color: #383838
+}
+.tool_bar_button_stnd:focus {
+    outline: none;
+}
+.tool_bar_button_s1 {
+    background-color: #222;
+    height: 60px;
+    width: 60px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    float: right;
+}
+
+.tool_bar_button_s1:hover {
+    background-color: #383838
+}
+
+.tool_bar_button_s1 div {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    color: white;
+}
+
+#btnline {
+    z-index: 200;
+    width: 60%;
+    height: 5px;
+    /*height: 60%;*/
+    border-radius: 2.5px;
+    /*border-radius: 60%;*/
+    background-color: var(--acc-color1);
+    margin-top: calc(50% - 2px);
+    /*margin-top: calc(50% - 30%);*/
+    cursor: pointer;
+    -webkit-transition: height 0.5s, width 0.5s, border-radius 0.5s, margin-top 0.5s;
+    -moz-transition: height 0.5s, width 0.5s, border-radius 0.5s, margin-top 0.5s;
+    transition: height 0.5s, width 0.5s, border-radius 0.5s, margin-top 0.5s;
+}
+/*///////////_HELPERS_////////////*/
+.right {
+    float: right;
+}
+
+
+/*///////////_ANIMATIONS_////////////*/
+
+.animate_path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: dash 5s linear forwards;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+}
+
+@-webkit-keyframes pulse {
+    from {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+    50% {
+        -webkit-transform: scale3d(1.05, 1.05, 1.05);
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+    to {
+        -webkit-transform: scale3d(1, 1, 1);
+        transform: scale3d(1, 1, 1);
+    }
+}
