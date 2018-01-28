@@ -22,7 +22,7 @@ class Draw extends Component {
             mouseDown: false,
             steps: 0,
             animate: false,
-            color: '#222222',
+            stroke: '#222222',
             strokeWidth: '4'
         };
     }
@@ -37,11 +37,11 @@ class Draw extends Component {
             if (newPaths.length > 0) {
                 const lastD = newPaths[newPaths.length - 1].props.d
                 const newD = lastD + pathConf.d;
-                newPath = <Path key={date} d={newD} pathClass={this.state.animate} stroke={pathConf.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
+                newPath = <Path key={date} d={newD} pathClass={this.state.animate} stroke={this.state.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
             }
 
             else {
-                newPath = <Path key={date} d={pathConf.d} pathClass={this.state.animate} stroke={pathConf.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
+                newPath = <Path key={date} d={pathConf.d} pathClass={this.state.animate} stroke={this.state.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
             }
 
             //Add path to history
@@ -63,7 +63,7 @@ class Draw extends Component {
 
             const lastD = newPaths[newPaths.length - 1].props.d
             const newD = lastD + pathConf.d;
-            const newPath = <Path key={date} pathClass={this.state.animate} d={newD} stroke={pathConf.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
+            const newPath = <Path key={date} pathClass={this.state.animate} d={newD} stroke={this.state.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
 
             this.setState({
                 history: this.state.history.concat(newPath),
@@ -105,7 +105,7 @@ class Draw extends Component {
     }
     colorchange(e){
         this.setState({
-            color: '#00adee'
+            stroke: '#00adee'
         });
     }
     calcPath(conf) {
@@ -136,8 +136,8 @@ class Draw extends Component {
             <div>
                 <div className="tool_bar">
                     <button className="tool_bar_button_stnd" onMouseDown={(e) => this.erease(e)}>&#10005;</button>
-                    <button className="tool_bar_button_stnd" onMouseDown={(e) => this.colorchange(e)}>&#9737;</button>
-                    <button className="tool_bar_button_stnd" onMouseDown={(e) => this.animate(e)}>&#8523;</button>
+                    {/* <button className="tool_bar_button_stnd" onMouseDown={(e) => this.colorchange(e)}>&#9737;</button> */}
+                    {/* <button className="tool_bar_button_stnd" onMouseDown={(e) => this.animate(e)}>&#8523;</button> */}
                     
                     <button className="tool_bar_button_stnd right" onMouseDown={(e) => this.forward(e)}>&#10095;</button>
                     <button className="tool_bar_button_stnd right" onMouseDown={(e) => this.rewind(e)}>&#10094;</button>
