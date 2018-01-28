@@ -23,7 +23,8 @@ class Draw extends Component {
             steps: 0,
             animate: false,
             stroke: '#222222',
-            strokeWidth: '4'
+            strokeWidth: '4',
+            firstLoad: true
         };
     }
     mouseClick(e, click) {
@@ -35,11 +36,10 @@ class Draw extends Component {
             const newPaths = this.state.history.slice();
             //Check for new
             if (newPaths.length > 0) {
-                const lastD = newPaths[newPaths.length - 1].props.d
+                const lastD = newPaths[this.state.step].props.d
                 const newD = lastD + pathConf.d;
                 newPath = <Path key={date} d={newD} pathClass={this.state.animate} stroke={this.state.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
             }
-
             else {
                 newPath = <Path key={date} d={pathConf.d} pathClass={this.state.animate} stroke={this.state.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
             }
@@ -61,9 +61,11 @@ class Draw extends Component {
             const date = new Date().getTime();
             const newPaths = this.state.history.slice();
 
-            const lastD = newPaths[newPaths.length - 1].props.d
+            const lastD = newPaths[this.state.step].props.d
             const newD = lastD + pathConf.d;
             const newPath = <Path key={date} pathClass={this.state.animate} d={newD} stroke={this.state.stroke} strokeWidth={pathConf.strokeWidth} fill={pathConf.fill} />
+            //Set localstorage
+            storage({ mode: 'set', id: 'draw_state', content: [this.state.step, this.state.history] });
 
             this.setState({
                 history: this.state.history.concat(newPath),
@@ -77,6 +79,7 @@ class Draw extends Component {
             history: [],
             step: 0
         });
+        storage({ mode: 'remove', id: 'draw_state' })
     }
     //Rewind drawing
     //@TODO: add hold to fast rewind
@@ -103,18 +106,25 @@ class Draw extends Component {
             animate: !this.state.animate
         });
     }
-    colorchange(e){
+    //@TODO: Add colorpicker
+    colorchange(e) {
         this.setState({
             stroke: '#00adee'
         });
     }
+    /**
+     * Returns path properties when given mouse coordinates
+     * conf.e: mouse event
+     * conf.new: new path or continue path (bool)
+     * @param {*} conf 
+     */
     calcPath(conf) {
         const e = conf.e;
         const canvas = document.getElementById('the-canvas');
         const svg = canvas.getBoundingClientRect();
         const x = (e.pageX - svg.left)
         const y = (e.pageY - svg.top)
-    
+
         //PATH PROPS
         const stroke = this.state.color;
         const strokeWidth = this.state.strokeWidth;
@@ -130,15 +140,33 @@ class Draw extends Component {
         };
     }
 
+    checkStorage() {
+        if (this.state.firstLoad) {
+            storage({ mode: 'get', id: 'draw_state' }).then(function (res) {
+                this.setState({
+                    history: res[1],
+                    step: res[0],
+                });
+            }.bind(this)
+            ).catch(function(){
+                this.setState({
+                    firstLoad: false
+                });
+            })
+        }
+    }
+
     render() {
+        //@TODO: Finsh storage check onload
         const currentpath = this.state.history[this.state.step]
+
         return (
             <div>
                 <div className="tool_bar">
                     <button className="tool_bar_button_stnd" onMouseDown={(e) => this.erease(e)}>&#10005;</button>
                     {/* <button className="tool_bar_button_stnd" onMouseDown={(e) => this.colorchange(e)}>&#9737;</button> */}
                     {/* <button className="tool_bar_button_stnd" onMouseDown={(e) => this.animate(e)}>&#8523;</button> */}
-                    
+
                     <button className="tool_bar_button_stnd right" onMouseDown={(e) => this.forward(e)}>&#10095;</button>
                     <button className="tool_bar_button_stnd right" onMouseDown={(e) => this.rewind(e)}>&#10094;</button>
                 </div>
@@ -161,3 +189,28 @@ class Draw extends Component {
 
 export default Draw;
 
+
+function storage(conf) {
+    return new Promise(function (resolve, reject) {
+        if (typeof (Storage) !== "undefined") {
+            // Code for localStorage/sessionStorage.
+            switch (conf.mode) {
+
+                case 'remove':
+                    resolve(localStorage.removeItem(conf.id));
+                    break;
+                case 'set':
+                    resolve(localStorage.setItem(conf.id, JSON.stringify(conf.content)));
+                    break;
+                case 'get':
+                    resolve(JSON.parse(localStorage.getItem(conf.id)));
+                    break;
+                default:
+                    break;
+            }
+        }
+        else {
+            reject('Sorry! No Web Storage support..')
+        }
+    });
+}
