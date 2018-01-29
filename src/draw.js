@@ -166,7 +166,7 @@ class Draw extends Component {
                     <button className="tool_bar_button_stnd" onMouseDown={(e) => this.erease(e)}>&#10005;</button>
                     {/* <button className="tool_bar_button_stnd" onMouseDown={(e) => this.colorchange(e)}>&#9737;</button> */}
                     {/* <button className="tool_bar_button_stnd" onMouseDown={(e) => this.animate(e)}>&#8523;</button> */}
-
+                    <span className="title"><a> | reDrawable</a></span>
                     <button className="tool_bar_button_stnd right" onMouseDown={(e) => this.forward(e)}>&#10095;</button>
                     <button className="tool_bar_button_stnd right" onMouseDown={(e) => this.rewind(e)}>&#10094;</button>
                 </div>

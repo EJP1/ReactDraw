@@ -28,6 +28,13 @@
     height: 100%;
 }
 
+.title{
+    color: white;
+    font-size: 22px;
+    text-align: center;
+    font-weight: 300;
+    /* margin-left: 50%; */
+}
 
 /*///////////_BUTTONS_////////////*/
 
